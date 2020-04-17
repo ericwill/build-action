@@ -1,0 +1,14 @@
+name: 'Build Action test'
+description: 'Repeat message back with the time'
+inputs:
+  message:
+    description: 'Message'
+    required: true
+    default: 'build action fork'
+outputs:
+  return-message:
+    description: 'build action fork at time'
+runs:
+  using: 'node12'
+  main: 'index.js'
+
