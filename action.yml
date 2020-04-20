@@ -5,6 +5,10 @@ inputs:
     description: 'Message'
     required: true
     default: 'build action fork'
+  secrettest:
+    description: 'test secret'
+    required: true
+    default: 'test'
 outputs:
   return-message:
     description: 'build action fork at time'

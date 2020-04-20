@@ -3,15 +3,19 @@ const github = require('@actions/github');
 const { spawn } = require('child_process')
 
 try {
-  const child = spawn('pwd');
-  child.stdout.on('data', (data) => {
-    console.log(`child stdout:\n${data}`);
-  });
-  child.stderr.on('data', (data) => {
-    console.error(`child stderr:\n${data}`);
-  });
+  // const dockerUser = 
+  // const docker = spawn('docker login -u ${dockerUser} -p ${dockerPassword} quay.io');
+  // child.stdout.on('data', (data) => {
+  //   console.log(`child stdout:\n${data}`);
+  // });
+  // child.stderr.on('data', (data) => {
+  //   console.error(`child stderr:\n${data}`);
+  // });
   // `who-to-greet` input defined in action metadata file
   const messagePassed = core.getInput('message');
+  // const imageName = core.getInput('IMAGE_NAME');
+  const secretTest = core.getInput('secrettest')
+  console.log(`secretTest is ${secretTest}!`)
   console.log(`Message passed was ${messagePassed}!`);
   const time = (new Date()).toTimeString();
   core.setOutput("return-message", time);
