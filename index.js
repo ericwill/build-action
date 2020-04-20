@@ -1,7 +1,12 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { spawn } = require('child_process')
 
 try {
+  const child = spawn('pwd');
+  child.stdout.on('data', (data) => {
+    console.log(`child stdout:\n${data}`);
+  });
   // `who-to-greet` input defined in action metadata file
   const messagePassed = core.getInput('message');
   console.log(`Message passed was ${messagePassed}!`);
