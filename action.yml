@@ -1,14 +1,26 @@
 name: 'Build Action test'
 description: 'Repeat message back with the time'
 inputs:
-  message:
-    description: 'Message'
+  docker_user:
+    description: 'Username for quay.io login'
     required: true
-    default: 'build action fork'
-  secrettest:
-    description: 'test secret'
+    default: ''
+  docker_password:
+    description: 'Password for quay.io login'
     required: true
-    default: 'test'
+    default: ''
+  image_name:
+    description: 'Image name to be built and published'
+    required: true
+    default: ''
+  image_version:
+    description: 'Image version'
+    required: true
+    default: 'latest'
+  sha_id:
+    description: 'SHA1 ID of commit'
+    required: true
+    default: ''
 outputs:
   return-message:
     description: 'build action fork at time'

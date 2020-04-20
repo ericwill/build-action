@@ -3,25 +3,22 @@ const github = require('@actions/github');
 const { spawn } = require('child_process')
 
 try {
-  // const dockerUser = 
-  // const docker = spawn('docker login -u ${dockerUser} -p ${dockerPassword} quay.io');
-  // child.stdout.on('data', (data) => {
-  //   console.log(`child stdout:\n${data}`);
+  // const dockerUser = core.getInput('docker_user');
+  // const dockerPassword = core.getInput('docker_password');
+  // const docker = spawn(`docker login -u ${dockerUser} -p ${dockerPassword} quay.io`);
+  // docker.on('exit', function (code, signal) {
+  //   if (code !== 0) {
+  //     throw "Docker login to Quay.io failed";
+  //   }
   // });
-  // child.stderr.on('data', (data) => {
-  //   console.error(`child stderr:\n${data}`);
-  // });
-  // `who-to-greet` input defined in action metadata file
-  const messagePassed = core.getInput('message');
-  // const imageName = core.getInput('IMAGE_NAME');
-  const secretTest = core.getInput('secrettest')
-  console.log(`secretTest is ${secretTest}!`)
-  console.log(`Message passed was ${messagePassed}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("return-message", time);
+  const imageName = core.getInput('image_name');
+  const imageVersion = core.getInput('image_version');
+  const shaId = core.getInput('sha_id');
+  console.log(`Inputs: ${imageName} ${imageVersion} ${shaId}`)
+  core.setOutput("return-message", "output sent");
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  // console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }
