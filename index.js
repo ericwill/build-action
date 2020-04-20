@@ -4,8 +4,9 @@ const { spawn } = require('child_process')
 
 try {
   const child = spawn('pwd');
-  child.stdout.on('data', (data) => {
-    console.log(`child stdout:\n${data}`);
+  child.on('exit', function (code, signal) {
+    console.log('child process exited with ' +
+                `code ${code} and signal ${signal}`);
   });
   // `who-to-greet` input defined in action metadata file
   const messagePassed = core.getInput('message');
