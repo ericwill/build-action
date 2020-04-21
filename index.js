@@ -11,9 +11,8 @@ try {
   console.log(`Path to Dockerfile is ${pathToDockerfile}`);
   if (pathToDockerfile) {
     console.log("pathToDockerfile provided, CDing");
-    execSync(`cd ${pathToDockerfile}`);
+    execSync(`cd ${pathToDockerfile} && ls -alh`);
   }
-  console.log(`Contents of directory: ${execSync('ls -alh')}`);
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');
   // const docker = spawn(`docker login -u ${dockerUser} -p ${dockerPassword} quay.io`);
