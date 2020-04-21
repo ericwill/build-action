@@ -7,9 +7,10 @@ const Git = require("nodegit");
 try {
   const repo = core.getInput('repo')
   Git.Clone(`${repo}`, "./")
-  const pathToDockerfile = core.getInput('path_to_dockerfile')
+  const pathToDockerfile = core.getInput('path_to_dockerfile');
+  console.log(`Path to Dockerfile is ${pathToDockerfile}`);
   if (pathToDockerfile) {
-    exec(`cd ${path}`, (err, stdout, stderr) => {
+    exec(`cd ${pathToDockerfile}`, (err, stdout, stderr) => {
       if (err) {
         console.error(`exec error: ${err}`);
         throw "Exec error for cd";
