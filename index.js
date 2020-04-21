@@ -7,12 +7,17 @@ const Git = require("nodegit");
 try {
   const repo = core.getInput('repo')
   Git.Clone(`${repo}`, "./")
-  const pathToDockerfile = core.getInput('path_to_dockerfile');
-  console.log(`Path to Dockerfile is ${pathToDockerfile}`);
-  if (pathToDockerfile) {
-    console.log("pathToDockerfile provided, CDing");
-    execSync(`cd ${pathToDockerfile} && ls -alh`);
-  }
+  const imageName = core.getInput('image_name');
+  const dockerBuild = spawn(`docker build -t ${imageName} .`);
+  dockerBuild.on('exit', function (code, signal) {
+    if (code !== 0) {
+      throw "Docker build failed";
+    }
+  });
+  dockerBuild.stdout.on('data', (data) => {
+    console.log(`Docker build output:\n${data}`);
+  });
+  
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');
   // const docker = spawn(`docker login -u ${dockerUser} -p ${dockerPassword} quay.io`);
@@ -21,7 +26,6 @@ try {
   //     throw "Docker login to Quay.io failed";
   //   }
   // });
-  const imageName = core.getInput('image_name');
   const imageVersion = core.getInput('image_version');
   const shaId = core.getInput('sha_id');
   console.log(`Inputs: ${imageName} ${imageVersion} ${shaId}`)
