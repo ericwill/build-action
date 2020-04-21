@@ -2,18 +2,27 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { spawn, exec } = require('child_process');
 const fs = require('fs');
+const Git = require("nodegit");
 
 try {
-  const dockerfile = core.getInput('dockerfile');
-  console.log(`Dockerfile input is: ${dockerfile}`);
-  fs.writeFileSync("Dockerfile", `${dockerfile}`); 
-  exec('cat Dockerfile', (err, stdout, stderr) => {
+  const repo = core.getInput('repo')
+  Git.Clone(`${repo}`, "./")
+  const pathToDockerfile = core.getInput('path_to_dockerfile')
+  if (pathToDockerfile) {
+    exec(`cd ${path}`, (err, stdout, stderr) => {
+      if (err) {
+        console.error(`exec error: ${err}`);
+        throw "Exec error for cd";
+      }
+    });
+  }
+  exec('ls -alh', (err, stdout, stderr) => {
     if (err) {
       console.error(`exec error: ${err}`);
-      throw "Exec error for cat";
+      throw "Exec error for ls";
     }
   
-    console.log(`Dockerfile cat output: ${stdout}`);
+    console.log(`Contents of directory: ${stdout}`);
   });
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');

@@ -1,9 +1,13 @@
 name: 'Build Action test'
 description: 'Repeat message back with the time'
 inputs:
-  dockerfile:
-    description: 'Dockerfile to be built + pushed'
+  repo:
+    description: 'Repository containing the Dockerfile to be built'
     required: true
+    default: ''
+  path_to_dockerfile:
+    description: 'Path to the Dockerfile which needs to be built'
+    required: false
     default: ''
   docker_user:
     description: 'Username for quay.io login'
