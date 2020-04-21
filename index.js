@@ -11,7 +11,7 @@ try {
   console.log(`Path to Dockerfile is ${pathToDockerfile}`);
   if (pathToDockerfile) {
     console.log("pathToDockerfile provided, CDing");
-    execSync(`cd ${pathToDockerfile} && ls -alh`);
+    console.log(execSync(`cd ${pathToDockerfile} && ls -alh`));
   }
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');
