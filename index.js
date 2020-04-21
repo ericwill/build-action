@@ -1,31 +1,51 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { spawn, exec, execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 const fs = require('fs');
 const Git = require("nodegit");
 
 try {
+  // Clone repo
   const repo = core.getInput('repo')
   Git.Clone(`${repo}`, "./")
-  const pathToDockerfile = core.getInput('path_to_dockerfile');
-  console.log(`Path to Dockerfile is ${pathToDockerfile}`);
-  if (pathToDockerfile) {
-    console.log("pathToDockerfile provided, CDing");
-    execSync(`cd ${pathToDockerfile} && ls -alh`);
-  }
-  // const dockerUser = core.getInput('docker_user');
-  // const dockerPassword = core.getInput('docker_password');
-  // const docker = spawn(`docker login -u ${dockerUser} -p ${dockerPassword} quay.io`);
-  // docker.on('exit', function (code, signal) {
-  //   if (code !== 0) {
-  //     throw "Docker login to Quay.io failed";
-  //   }
-  // });
+  
+  // Docker build
   const imageName = core.getInput('image_name');
+  // const dockerBuild = spawnSync('docker', ['build', '-t', `${imageName}`, '.'], { encoding : 'utf8' });
+  // if (dockerBuild.stderr) {
+  //   throw `Docker build failed:\n ${dockerBuild.stderr}`;
+  // }
+  // console.log(`Docker build output:\n ${dockerBuild.stdout}`);
+  
+  // Docker login
+  const dockerUser = core.getInput('docker_user');
+  const dockerPassword = core.getInput('docker_password');
+  const dockerLogin = spawnSync('docker', ['login', '-u', `${dockerUser}`, '-p', `${dockerPassword}`, 'quay.io'], { encoding : 'utf8' });
+  console.log(`Docker exit code: ${dockerLogin.status}`)
+  console.log(`Docker login error:\n ${dockerLogin.stderr}`);
+  if (dockerLogin.stderr) {
+    throw `Docker login to quay.io failed:\n ${dockerLogin.stderr}`;
+  }
+  console.log(`Docker login output:\n ${dockerLogin.stdout}`);
+
+
+  // Docker tag
   const imageVersion = core.getInput('image_version');
   const shaId = core.getInput('sha_id');
-  console.log(`Inputs: ${imageName} ${imageVersion} ${shaId}`)
-  core.setOutput("return-message", "output sent");
+  const dockerTag = spawnSync('docker', ['tag', `${imageName}`, `${imageName}:${imageVersion}-${shaId}`], { encoding : 'utf8' });
+  if (dockerTag.stderr) {
+    throw `Docker tag failed:\n ${dockerTag.stderr}`;
+  }
+  console.log(`Docker tag output:\n ${dockerTag.stdout}`);
+
+  // Docker push
+  const dockerPush = spawnSync('docker', ['push', `${imageName}:${imageVersion}-${shaId}`], { encoding : 'utf8' });
+  if (dockerPush.stderr) {
+    throw `Docker push failed:\n ${dockerPush.stderr}`;
+  }
+  console.log(`Docker push output:\n ${dockerPush.stdout}`);
+
+  core.setOutput("return", "Build + push complete");
   
   // Get the JSON webhook payload for the event that triggered the workflow
   // const payload = JSON.stringify(github.context.payload, undefined, 2)
