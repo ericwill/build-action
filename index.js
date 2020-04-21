@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { spawn, exec } = require('child_process');
+const { spawn, exec, execSync } = require('child_process');
 const fs = require('fs');
 const Git = require("nodegit");
 
@@ -10,21 +10,10 @@ try {
   const pathToDockerfile = core.getInput('path_to_dockerfile');
   console.log(`Path to Dockerfile is ${pathToDockerfile}`);
   if (pathToDockerfile) {
-    exec(`cd ${pathToDockerfile}`, (err, stdout, stderr) => {
-      if (err) {
-        console.error(`exec error: ${err}`);
-        throw "Exec error for cd";
-      }
-    });
+    console.log("pathToDockerfile provided, CDing");
+    execSync(`cd ${pathToDockerfile}`);
   }
-  exec('ls -alh', (err, stdout, stderr) => {
-    if (err) {
-      console.error(`exec error: ${err}`);
-      throw "Exec error for ls";
-    }
-  
-    console.log(`Contents of directory: ${stdout}`);
-  });
+  console.log(`Contents of directory: ${execSync('ls -alh')}`);
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');
   // const docker = spawn(`docker login -u ${dockerUser} -p ${dockerPassword} quay.io`);
