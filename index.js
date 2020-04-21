@@ -5,12 +5,7 @@ const fs = require('fs');
 
 try {
   const dockerfile = core.getInput('dockerfile');
-  fs.writeFile("Dockerfile", `${dockerfile}`, function(err) {
-    if(err) {
-      throw "Writing Dockerfile failed";
-    }
-    console.log("The file was saved!");
-  }); 
+  fs.writeFileSync("Dockerfile", `${dockerfile}`); 
   exec('cat Dockerfile', (err, stdout, stderr) => {
     if (err) {
       console.error(`exec error: ${err}`);
