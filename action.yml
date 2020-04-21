@@ -5,10 +5,6 @@ inputs:
     description: 'Repository containing the Dockerfile to be built'
     required: true
     default: ''
-  path_to_dockerfile:
-    description: 'Path to the Dockerfile which needs to be built'
-    required: false
-    default: ''
   docker_user:
     description: 'Username for quay.io login'
     required: true
@@ -30,8 +26,8 @@ inputs:
     required: true
     default: ''
 outputs:
-  return-message:
-    description: 'build action fork at time'
+  return:
+    description: 'Output message if build + push was successful or not'
 runs:
   using: 'node12'
   main: 'index.js'
