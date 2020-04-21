@@ -5,6 +5,7 @@ const fs = require('fs');
 
 try {
   const dockerfile = core.getInput('dockerfile');
+  console.log(`Dockerfile input is: ${dockerfile}`);
   fs.writeFileSync("Dockerfile", `${dockerfile}`); 
   exec('cat Dockerfile', (err, stdout, stderr) => {
     if (err) {
@@ -12,7 +13,7 @@ try {
       throw "Exec error for cat";
     }
   
-    console.log(`Dockerfile output: ${stdout}`);
+    console.log(`Dockerfile cat output: ${stdout}`);
   });
   // const dockerUser = core.getInput('docker_user');
   // const dockerPassword = core.getInput('docker_password');
