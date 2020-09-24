@@ -6,7 +6,7 @@ const Git = require("nodegit");
 
 try {
 
-  const ls = spawnSync("ls");
+  const ls = spawnSync("ls", ['-l]']);
   // console.log(`LS output is ${ls.stdout}`);
   core.setOutput("return", ls.stdout);
   // Clone repo
@@ -54,5 +54,5 @@ try {
   // // const payload = JSON.stringify(github.context.payload, undefined, 2)
   // // console.log(`The event payload: ${payload}`);
 } catch (error) {
-  core.setFailed(error.message);
+  core.setFailed("something went wrong");
 }
