@@ -5,29 +5,9 @@ inputs:
     description: 'Repository containing the Dockerfile to be built'
     required: true
     default: ''
-  docker_user:
-    description: 'Username for quay.io login'
-    required: true
-    default: ''
-  docker_password:
-    description: 'Password for quay.io login'
-    required: true
-    default: ''
-  image_name:
-    description: 'Image name to be built and published'
-    required: true
-    default: ''
-  image_version:
-    description: 'Image version'
-    required: true
-    default: 'latest'
-  sha_id:
-    description: 'SHA1 ID of commit'
-    required: true
-    default: ''
 outputs:
   return:
-    description: 'Output message if build + push was successful or not'
+    description: 'Output of ls'
 runs:
   using: 'node12'
   main: 'index.js'
