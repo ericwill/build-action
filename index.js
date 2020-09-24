@@ -7,7 +7,7 @@ const Git = require("nodegit");
 try {
   const ls = spawnSync("ls", ['-l]']);
   // console.log(`LS output is ${ls.stdout}`);
-  core.setOutput("return", ls.stdout);
+  core.setOutput("return", `${ls.stdout}`);
   // Clone repo
   // const repo = core.getInput('repo')
   // Git.Clone(`${repo}`, "./")
