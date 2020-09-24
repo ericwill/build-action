@@ -5,7 +5,6 @@ const fs = require('fs');
 const Git = require("nodegit");
 
 try {
-
   const ls = spawnSync("ls", ['-l]']);
   // console.log(`LS output is ${ls.stdout}`);
   core.setOutput("return", ls.stdout);
@@ -54,5 +53,5 @@ try {
   // // const payload = JSON.stringify(github.context.payload, undefined, 2)
   // // console.log(`The event payload: ${payload}`);
 } catch (error) {
-  core.setFailed("something went wrong");
+  core.setFailed(error.message);
 }
